@@ -1,42 +1,54 @@
-# python3
+# Veronika Musijaka 221RDB124 13.gr
 
 
 def build_heap(data):
+    n = len(data)
     swaps = []
-    # TODO: Creat heap and heap sort
-    # try to achieve  O(n) and not O(n2)
-
-
+    # sākot no pēdējā mezgla, kas nav lapu, veic izsijāšanas darbības, lai izveidotu kaudzi
+    for i in range(n // 2, -1, -1):
+        swaps += sift_down(data, i, n)
     return swaps
 
+def sift_down(data, i, n):
+    swaps = []
+    # atrast mezgla i mazākā bērna indeksu
+    min_index = i
+    l = 2 * i + 1
+    if l < n and data[l] < data[min_index]:
+        min_index = l
+    r = 2 * i + 2
+    if r < n and data[r] < data[min_index]:
+        min_index = r
+    # ja vecāks nav mazāks par savu mazāko bērnu, nomaina tos un veic bērnam izsijāšanas operāciju
+    if i != min_index:
+        swaps.append((i, min_index))
+        data[i], data[min_index] = data[min_index], data[i]
+        swaps += sift_down(data, min_index, n)
+    return swaps
 
 def main():
     
-    # TODO : add input and corresponding checks
-    # add another input for I or F 
-    # first two tests are from keyboard, third test is from a file
+    input_method = input("Please enter the input method (I or F): ")
 
+    if "I" in input_method:
+        n = int(input("Please enter a number of elements: "))
+        data = list(map(int, input("Plese enter the elements: ").split()))
 
-    # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
+    if "F" in input_method:
+        filename = input("Please enter the name of file: ")
 
-    # checks if lenght of data is the same as the said lenght
+        with open(f"tests/{filename}") as file:
+            n = int(file.readline())
+            data = list(map(int, file.readline().split()))
+
     assert len(data) == n
 
-    # calls function to assess the data 
-    # and give back all swaps
+    
     swaps = build_heap(data)
 
-    # TODO: output how many swaps were made, 
-    # this number should be less than 4n (less than 4*len(data))
-
-
-    # output all swaps
     print(len(swaps))
     for i, j in swaps:
         print(i, j)
-
 
 if __name__ == "__main__":
     main()
