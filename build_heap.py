@@ -20,7 +20,7 @@ def sift_down(data, i, n):
     if r < n and data[r] < data[min_index]:
         min_index = r
     # ja vecāks nav mazāks par savu mazāko bērnu, nomaina tos un veic bērnam izsijāšanas operāciju
-    if != min_index:
+    if i != min_index:
         swaps.append((i, min_index))
         data[i], data[min_index] = data[min_index], data[i]
         swaps += sift_down(data, min_index, n)
